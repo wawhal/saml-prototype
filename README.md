@@ -1,6 +1,6 @@
 # SAML 2.0 prototype
 
-For testing, follow the given steps (little tedious I know):
+For testing, follow the given steps:
 
 1. Build the deps and run the server on port 8080. `go build main.go && ./main.go` from `server` directory. Or whatever's your favourite way to run go files.
 2. Run the client on port 3000. `npm start` from `client` directory.
