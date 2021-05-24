@@ -4,7 +4,7 @@ import './App.css';
 
 const getSSOUri: () => Promise<string | null> = () => {
   return fetch(
-    'http://server.saml.test/v1/login_uri'
+    'http://localhost:8080/v1/login_uri'
   ).then(r => {
     return r.json();
   }).then(r => {
@@ -15,7 +15,7 @@ const getSSOUri: () => Promise<string | null> = () => {
 
 const isLoggedIn: () => Promise<boolean> = () => {
   return fetch(
-    'http://server.saml.test/v1/is_logged_in',
+    'http://localhost:8080/v1/is_logged_in',
     {
       credentials: 'include'
     }
@@ -29,7 +29,7 @@ const isLoggedIn: () => Promise<boolean> = () => {
 
 const logout = () => {
   fetch(
-    'http://server.saml.test/v1/logout',
+    'http://localhost:8080/v1/logout',
     {
       credentials: 'include'
     }

@@ -68,10 +68,10 @@ func main() {
 	sp := &saml2.SAMLServiceProvider{
 		IdentityProviderSSOURL:      metadata.IDPSSODescriptor.SingleSignOnServices[0].Location,
 		IdentityProviderIssuer:      metadata.EntityID,
-		ServiceProviderIssuer:       "http://ui.saml.test",
-		AssertionConsumerServiceURL: "http://server.saml.test/v1/_saml_callback",
+		ServiceProviderIssuer:       "http://localhost:8080/v1/ui",
+		AssertionConsumerServiceURL: "http://localhost:8080/v1/_saml_callback",
 		SignAuthnRequests:           true,
-		AudienceURI:                 "http://server.saml.test/v1/_saml_callback",
+		AudienceURI:                 "http://localhost:8080/v1/_saml_callback",
 		IDPCertificateStore:         &certStore,
 		SPKeyStore:                  randomKeyStore,
 	}
@@ -115,12 +115,14 @@ func main() {
 			Name: "logged_in",
 			Value: "true&" + assertionInfo.NameID,
 			Expires: time.Now().Add(10*time.Minute),
-			Domain: "saml.test",
 		}
 		http.SetCookie(rw, &cookie)
 
+		x, _ := json.Marshal(assertionInfo)
+		fmt.Println(string(x))
+
 		// Redirect to the main app
-		http.Redirect(rw, req, "http://ui.saml.test", http.StatusSeeOther)
+		http.Redirect(rw, req, "http://localhost:8080/v1/ui", http.StatusSeeOther)
 	})
 
 	// handler for the UI to get the login URI
@@ -163,11 +165,16 @@ func main() {
 		cookie := http.Cookie {
 			Name: "logged_in",
 			Value: "false",
-			Domain: "saml.test",
 		}
 		http.SetCookie(rw, &cookie)
 		fmt.Fprintf(rw, "OK")
 	})
+
+	fs := http.FileServer(http.Dir("./build"))
+  	http.Handle("/static/", fs)
+	http.HandleFunc("/v1/ui/", func(rw http.ResponseWriter, req *http.Request){
+    	http.ServeFile(rw, req, "./build/index.html");
+    });
 
 	println("Starting server on port 8080")
 

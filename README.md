@@ -4,7 +4,7 @@ For testing, follow the given steps:
 
 1. Build the deps and run the server on port 8080. `go build main.go && ./main.go` from `server` directory. Or whatever's your favourite way to run go files.
 2. Run the client on port 3000. `npm start` from `client` directory.
-3. Point `localhost:8080` to `server.saml.test` and `localhost:3000` to `ui.saml.test`. This is important for sharing cookies between UI and Server. I did it the following way; if you know a better way, feel free to use that.
+3. Point `localhost:8080/*` to `server.saml.test/*` and `localhost:3000/*` to `ui.saml.test/*`. This is important for sharing cookies between UI and Server. I did it the following way; if you know a better way, feel free to use that.
 
 	a. Add the following site to your nginx conf. Create a file called `mysite` in `/etc/nginx/sites-available/` and add the following content:
 
