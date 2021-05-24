@@ -1,4 +1,4 @@
-#SAML 2.0 prototype
+# SAML 2.0 prototype
 
 For testing, follow the given steps (little tedious I know):
 
